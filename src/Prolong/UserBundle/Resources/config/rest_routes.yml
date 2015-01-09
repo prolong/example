@@ -1,0 +1,19 @@
+# UserController
+user.login:
+    path: /user/login
+    defaults: { _controller: ProlongUserBundle:User:login, _format: ~ }
+
+user.logout:
+    pattern:  /logout
+
+user.me:
+    pattern:  /user/me
+    defaults: { _controller: ProlongUserBundle:User:me, _format: ~ }
+    requirements:
+        _method: GET
+
+user.register:
+    pattern:  /user/register
+    defaults: { _controller: ProlongUserBundle:User:register, _format: ~ }
+    requirements:
+        _method: POST

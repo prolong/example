@@ -1,0 +1,78 @@
+parameters:
+  repository.user.class: Prolong\UserBundle\Entity\UserRepository
+  repository.user_role.class: Prolong\UserBundle\Entity\UserRoleRepository
+  entity.user.class: Prolong\UserBundle\Entity\User
+  entity.user_role.class: Prolong\UserBundle\Entity\UserRole
+  service.user.class: Prolong\UserBundle\Service\UserService
+
+services:
+
+    #repositories
+    repository.user:
+        class: %repository.user.class%
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ %entity.user.class% ]
+
+    repository.user_role:
+        class: %repository.user_role.class%
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ %entity.user_role.class% ]
+
+    # forms
+    form.user_register:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - userRegister
+            - userRegister
+            - null
+            - {validation_groups: [default, register]}
+
+    form.user_update_role:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - userUpdateRole
+            - userUpdateRole
+            - null
+            - {validation_groups: [default, update_role]}
+
+    form.user_login:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - userLogin
+            - userLogin
+            - null
+            - {validation_groups: [default, login]}
+
+    form.type.user_register:
+        class: Prolong\UserBundle\Form\UserRegisterType
+        tags:
+            - { name: form.type, alias: userRegister }
+
+    form.type.user_update_role:
+        class: Prolong\UserBundle\Form\UserUpdateRoleType
+        tags:
+            - { name: form.type, alias: userUpdateRole }
+
+    form.type.user_login:
+        class: Prolong\UserBundle\Form\UserLoginType
+        tags:
+            - { name: form.type, alias: userLogin }
+
+    service.user:
+      class: "%service.user.class%"
+      arguments:
+        - @security.token_storage
+        - @security.authorization_checker
+        - @security.password_encoder
+        - @repository.user
+        - @repository.user_role
+        - @doctrine.orm.entity_manager
+

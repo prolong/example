@@ -1,0 +1,13 @@
+# UserController
+hb.admin.user.add_role:
+    pattern:  /user/role
+    defaults: { _controller: ProlongUserBundle:Admin\User:addRole, _format: ~ }
+    requirements:
+        _method: POST
+
+hb.admin.user.remove_role:
+    pattern:  /user/role
+    defaults: { _controller: ProlongUserBundle:Admin\User:removeRole, _format: ~ }
+    requirements:
+        _method: DELETE
+
