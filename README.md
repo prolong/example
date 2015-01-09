@@ -43,7 +43,7 @@ Documentation API
 --------------
 
 <b>Register user:</b>
-
+```
 method: POST
 url: /api/v1/user/register
 Параметры:
@@ -54,9 +54,10 @@ url: /api/v1/user/register
         "password":"123456"
     }
 }
+```
 
 <b>Login user:</b>
-
+```
 method: POST
 url: /api/v1/user/login
 Параметры:
@@ -67,23 +68,24 @@ url: /api/v1/user/login
         "password":"123456"
     }
 }
+```
 
 <b>Logout user:</b>
-
+```
 method: GET
 url: /api/v1/logout
 Параметры:
-
+```
 
 <b>Info user:</b>
-
+```
 method: GET
 url: /api/v1/user/me
 Параметры:
-
+```
 
 <b>Update user role:</b>
-
+```
 method: POST
 url: /api/v1/admin/user/role
 Параметры:
@@ -96,3 +98,4 @@ url: /api/v1/admin/user/role
         ]
     }
 }
+```
