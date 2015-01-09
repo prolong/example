@@ -1,0 +1,28 @@
+Prolong\UserBundle\Entity\User:
+    exclusion_policy: ALL
+    xml_root_name: user
+    properties:
+        id:
+            expose: true
+            groups: ["register", "me", "update_role"]
+            type: integer
+        email:
+            expose: true
+            groups: ["register", "me", "update_role"]
+            type: string
+            accessor:
+                getter: getEmail
+        roles:
+            expose: true
+            groups: ["register", "me", "update_role"]
+            type: array
+            accessor:
+                getter: getRoles
+        createdAt:
+            expose: true
+            type: DateTime<'Y-m-d H:i:s'>
+            groups: ["register", "me", "update_role"]
+        updatedAt:
+            expose: true
+            type: DateTime<'Y-m-d H:i:s'>
+            groups: ["register", "me", "update_role"]
