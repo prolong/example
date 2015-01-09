@@ -1,69 +1,97 @@
-Symfony Standard Edition
+Omlook register example
 ========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
-
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
-
-What's inside?
+Migration sql
 --------------
 
-The Symfony Standard Edition is configured with the following defaults:
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
-  * An AppBundle you can use to start coding;
+CREATE TABLE `user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `createdAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_2DE8C6A357698A6A` (`role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
-  * Twig as the only configured template engine;
+CREATE TABLE `user_role_assoc` (
+  `userId` int(11) NOT NULL,
+  `roleId` int(11) NOT NULL,
+  PRIMARY KEY (`userId`,`roleId`),
+  KEY `IDX_2B2819D264B64DCC` (`userId`),
+  KEY `IDX_2B2819D2B8C2FD88` (`roleId`),
+  CONSTRAINT `FK_2B2819D2B8C2FD88` FOREIGN KEY (`roleId`) REFERENCES `user_role` (`id`),
+  CONSTRAINT `FK_2B2819D264B64DCC` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
-  * Doctrine ORM/DBAL;
+INSERT INTO user_role (id, role, name, createdAt) VALUES (1, 'ROLE_ADMIN', 'Администратор', '2015-01-09 01:07:22');
+INSERT INTO user_role (id, role, name, createdAt) VALUES (2, 'ROLE_CUSTOMER', 'Пользователь', '2015-01-09 01:07:39');
+INSERT INTO user_role (id, role, name, createdAt) VALUES (3, 'ROLE_AUTHOR', 'Автор', '2015-01-09 02:37:23');
+INSERT INTO user_role (id, role, name, createdAt) VALUES (4, 'ROLE_PUBLISHER', 'Издатель', '2015-01-09 02:37:58');
 
-  * Swiftmailer;
+Documentation API
+--------------
 
-  * Annotations enabled for everything.
+<b>Register user:</b>
 
-It comes pre-configured with the following bundles:
+method: POST
+url: /api/v1/user/register
+Параметры:
+{
+    "userRegister":
+    {
+        "email":"prolong@gmail.com",
+        "password":"123456"
+    }
+}
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+<b>Login user:</b>
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+method: POST
+url: /api/v1/user/login
+Параметры:
+{
+    "userLogin":
+    {
+        "email":"prolong@gmail.com",
+        "password":"123456"
+    }
+}
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+<b>Logout user:</b>
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+method: GET
+url: /api/v1/logout
+Параметры:
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+<b>Info user:</b>
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+method: GET
+url: /api/v1/user/me
+Параметры:
 
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+<b>Update user role:</b>
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.6/book/installation.html
-[6]:  http://symfony.com/doc/2.6/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.6/book/doctrine.html
-[8]:  http://symfony.com/doc/2.6/book/templating.html
-[9]:  http://symfony.com/doc/2.6/book/security.html
-[10]: http://symfony.com/doc/2.6/cookbook/email.html
-[11]: http://symfony.com/doc/2.6/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.6/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.6/bundles/SensioGeneratorBundle/index.html
+method: POST
+url: /api/v1/admin/user/role
+Параметры:
+{
+    "userUpdateRole":
+    {
+        "email":"prolong2@gmail.com",
+        "roles":[
+          {"role":"ROLE_AUTHOR"}
+        ]
+    }
+}
