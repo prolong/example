@@ -3,7 +3,7 @@ Omlook register example
 
 Migration sql
 --------------
-
+```
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
@@ -37,6 +37,7 @@ INSERT INTO user_role (id, role, name, createdAt) VALUES (1, 'ROLE_ADMIN', 'Ад
 INSERT INTO user_role (id, role, name, createdAt) VALUES (2, 'ROLE_CUSTOMER', 'Пользователь', '2015-01-09 01:07:39');
 INSERT INTO user_role (id, role, name, createdAt) VALUES (3, 'ROLE_AUTHOR', 'Автор', '2015-01-09 02:37:23');
 INSERT INTO user_role (id, role, name, createdAt) VALUES (4, 'ROLE_PUBLISHER', 'Издатель', '2015-01-09 02:37:58');
+```
 
 Documentation API
 --------------
